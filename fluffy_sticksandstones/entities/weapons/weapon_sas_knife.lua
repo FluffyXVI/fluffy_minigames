@@ -6,10 +6,10 @@ if (SERVER) then
 end
 
 if ( CLIENT ) then
-	SWEP.PrintName			= "Baliistic Knives" 
+	SWEP.PrintName			= "Ballistic Knives" 
     SWEP.Author		= "AlbinoBlackHawk"
     SWEP.Category	= "Sticks and Stones" 
-	SWEP.ViewModelFOV			= 77
+	SWEP.ViewModelFOV			= 65
 	SWEP.ViewModelFlip		= false
 	SWEP.CSMuzzleFlashes		= true
 	SWEP.Slot				= 2
@@ -19,21 +19,22 @@ end
 SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= true
 
-SWEP.ViewModel 				= "models/weapons/v_knife_t.mdl"
+SWEP.ViewModel 				= "models/weapons/cstrike/c_knife_t.mdl"
 SWEP.WorldModel 			= "models/weapons/w_knife_t.mdl" 
+SWEP.UseHands               = true
 
 SWEP.Primary.ClipSize			= 1
-SWEP.Primary.Damage			= -1
+SWEP.Primary.Damage			    = -1
 SWEP.Primary.DefaultClip		= KNIFE_MAX
 SWEP.Primary.Automatic			= false
-SWEP.Primary.Ammo			="357"
+SWEP.Primary.Ammo			    = "357"
 
 
 SWEP.Secondary.ClipSize			= -1
 SWEP.Secondary.DefaultClip		= -1
 SWEP.Secondary.Damage			= -1
 SWEP.Secondary.Automatic		= true
-SWEP.Secondary.Ammo			="none"
+SWEP.Secondary.Ammo			    = "none"
 
 
 
@@ -136,7 +137,7 @@ function SWEP:SecondaryAttack()
 
 		if trace.Entity:IsPlayer() or trace.Entity:IsNPC() then
 			self.Weapon:SetNextPrimaryFire(CurTime() + 0.5)
-			self.Weapon:SendWeaponAnim(ACT_VM_HITCENTER)
+			self.Weapon:SendWeaponAnim(ACT_VM_MISSCENTER)
 			self.Idle = CurTime() + self.Owner:GetViewModel():SequenceDuration()
 			bullet = {}
 			bullet.Num    = 1
@@ -159,7 +160,7 @@ function SWEP:SecondaryAttack()
 			bullet.Damage = dmg
 			self.Owner:FireBullets(bullet)
 			self.Weapon:SetNextPrimaryFire(CurTime() + 0.5)
-			self.Weapon:SendWeaponAnim(ACT_VM_HITCENTER)
+			self.Weapon:SendWeaponAnim(ACT_VM_MISSCENTER)
 			self.Idle = CurTime() + self.Owner:GetViewModel():SequenceDuration()
 			self.Weapon:EmitSound( "Weapon_Knife.HitWall" )
 
