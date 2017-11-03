@@ -57,7 +57,7 @@ function ENT:PhysicsCollide( data, phys )
 	if Ent:IsPlayer() and self.CanBePickedUP then
         local axe = Ent:GetNWInt('AxeCount', 0)
 		if axe < AXE_MAX then
-			Ent:SetNWINt('AxeCount', axe + 1)
+			Ent:SetNWInt('AxeCount', axe + 1)
 		end
 		self:Remove()
 	end
