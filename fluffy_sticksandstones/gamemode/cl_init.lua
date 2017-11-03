@@ -51,6 +51,19 @@ function CreateScoringPane()
     ScorePane = Frame
 end
 
+local axe_material = Material('fluffy/tomahawk_outline.png', 'noclamp smooth')
+
 hook.Add('HUDPaint', 'SASCoolHUD', function()
     if !IsValid( ScorePane ) then CreateScoringPane() end
+    
+    local axes = LocalPlayer():GetNWInt('AxeCount', 0)
+    if axes < 1 then return end
+    
+    local xx = 128
+    surface.SetMaterial( axe_material )
+    surface.SetDrawColor( color_white )
+    for i=1,axes do
+        surface.DrawTexturedRect( ScrW() - 72, ScrH() - xx, 64, 64 )
+        xx = xx + 64
+    end
 end )

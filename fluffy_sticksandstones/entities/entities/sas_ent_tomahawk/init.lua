@@ -55,8 +55,9 @@ function ENT:PhysicsCollide( data, phys )
 	local Ent = data.HitEntity
 	if !(IsValid( Ent ) || Ent:IsWorld()) then return end
 	if Ent:IsPlayer() and self.CanBePickedUP then
-		if Ent.AxeCount < AXE_MAX then
-			Ent.AxeCount = Ent.AxeCount + 1
+        local axe = Ent:GetNWInt('AxeCount', 0)
+		if axe < AXE_MAX then
+			Ent:SetNWINt('AxeCount', axe + 1)
 		end
 		self:Remove()
 	end
@@ -119,7 +120,7 @@ end
 --I replaced it with calls to my own ammo management stystem.
 function ENT:Use( activator, caller )
 	self.Entity:Remove()
-	if ( activator:IsPlayer() and activator.AxeCount < AXE_MAX) then
-		activator.AxeCount = activator.AxeCount + 1
+	if ( activator:IsPlayer() and activator:GetNWInt('AxeCount', 0) < AXE_MAX) then
+		activator:SettNWInt('AxeCount', activator:GetNWInt('AxeCount') + 1 )
 	end
 end

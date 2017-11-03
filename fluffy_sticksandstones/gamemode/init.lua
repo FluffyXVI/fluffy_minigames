@@ -9,6 +9,9 @@ resource.AddFile('materials/models/tiggomods/weapons/aciii/tomahawk/tomahawk_d.v
 resource.AddFile('models/tiggomods/weapons/aciii/v_tomahawk.mdl')
 resource.AddFile('models/tiggomods/weapons/aciii/w_tomahawk.mdl')
 
+resource.AddFile('materials/fluffy/tomahawk.png')
+resource.AddFile('materials/fluffy/tomahawk_outline.png')
+
 function GM:GetWinningPlayer()
     if GAMEMODE.TeamBased then return nil end
     if GAMEMODE.Elimination then return nil end
@@ -39,11 +42,13 @@ function GM:PlayerLoadout( ply )
 	ply:Give( "weapon_sas_knife" )
 	ply:Give( "weapon_sas_crossbow_better" )
 	ply.Spawning = false
-	ply.AxeCount = 1
+	ply:SetNWInt('AxeCount', 1)
 end
 
 function GM:PlayerCanPickupWeapon(ply, wep)
 	if ply.Spawning then return true end
+    if !IsValid( wep ) then return true end
+    if !wep.Primary then return true end
 	local curAmmo = ply:GetAmmoCount(wep.Primary.Ammo)
 	if curAmmo < KNIFE_MAX - 1 then
 		ply:SetAmmo(curAmmo + 1, wep.Primary.Ammo)
@@ -53,13 +58,13 @@ function GM:PlayerCanPickupWeapon(ply, wep)
 end
 
 hook.Add( "KeyPress", "keypress_use_tomahawk", function( ply, key )
-	if ( key == IN_USE) and ply.AxeCount > 0 then
+	if ( key == IN_USE) and ply:GetNWInt('AxeCount', 0) > 0 then
 		CreateAxe(ply, key)
 	end
 end )
 
 function CreateAxe(ply, key)
-	ply.AxeCount = ply.AxeCount - 1
+    ply:SetNWInt('AxeCount', ply:GetNWInt('AxeCount') - 1 )
 	ply.PreviousWeapon = ply:GetActiveWeapon():GetClass()
 	ply.Spawning = true
 	ply:Give( "weapon_sas_tomohawk" )
