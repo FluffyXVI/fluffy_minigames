@@ -1,0 +1,6 @@
+"fluffy_oitc"
+{
+	"base"	"fluffy_base"
+	"title"	"OITC"
+	"menusystem"	"1"
+}

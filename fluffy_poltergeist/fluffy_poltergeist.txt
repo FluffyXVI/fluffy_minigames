@@ -1,0 +1,6 @@
+"fluffy_poltergeist"
+{
+	"base"	"fluffy_base"
+	"title"	"Poltergeist 2"
+	"menusystem"	"1"
+}

@@ -1,0 +1,6 @@
+"fluffy_sniperwars"
+{
+	"base"	"fluffy_base"
+	"title"	"Sniper Wars 2"
+	"menusystem"	"1"
+}

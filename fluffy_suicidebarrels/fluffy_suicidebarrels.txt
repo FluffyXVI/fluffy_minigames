@@ -1,0 +1,6 @@
+"fluffy_suicidebarrels"
+{
+	"base"	"fluffy_base"
+	"title"	"Suicide Barrels 2"
+	"menusystem"	"1"
+}

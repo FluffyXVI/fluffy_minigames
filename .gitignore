@@ -1,0 +1,16 @@
+base
+sandbox
+minigolf
+lobby
+fretta13
+terrortown
+buildoff
+murder
+stalker
+
+*.mdl
+*.vtx
+*.phy
+*.vvd
+*.vmt
+*.vtf

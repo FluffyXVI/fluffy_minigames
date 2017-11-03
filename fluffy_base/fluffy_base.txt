@@ -1,0 +1,5 @@
+"fluffy_base"
+{
+	"base"	"base"
+	"title"	"Fluffy Base"
+}
