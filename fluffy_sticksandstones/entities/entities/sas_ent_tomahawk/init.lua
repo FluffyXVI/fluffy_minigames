@@ -121,6 +121,6 @@ end
 function ENT:Use( activator, caller )
 	self.Entity:Remove()
 	if ( activator:IsPlayer() and activator:GetNWInt('AxeCount', 0) < AXE_MAX) then
-		activator:SettNWInt('AxeCount', activator:GetNWInt('AxeCount') + 1 )
+		activator:SetNWInt('AxeCount', activator:GetNWInt('AxeCount') + 1 )
 	end
 end
