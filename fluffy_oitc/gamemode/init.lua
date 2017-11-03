@@ -13,5 +13,6 @@ end
 
 -- Award a bullet when a player is killed
 hook.Add('PlayerDeath', 'BulletsOnKill', function( ply, attacker, dmginfo )
+    if !IsValid( attacker ) then return end
     if attacker.Owner then attacker.Owner:GiveAmmo( 1, 'Pistol', true ) else attacker:GiveAmmo( 1, 'Pistol', true ) end
 end )
