@@ -52,6 +52,7 @@ function GM:PlayerCanPickupWeapon(ply, wep)
 	local curAmmo = ply:GetAmmoCount(wep.Primary.Ammo)
 	if curAmmo < KNIFE_MAX - 1 then
 		ply:SetAmmo(curAmmo + 1, wep.Primary.Ammo)
+        ply:EmitSound('items/ammo_pickup.wav')
 	end
 	wep:Remove()
 	return false

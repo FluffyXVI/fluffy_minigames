@@ -58,6 +58,7 @@ function ENT:PhysicsCollide( data, phys )
         local axe = Ent:GetNWInt('AxeCount', 0)
 		if axe < AXE_MAX then
 			Ent:SetNWInt('AxeCount', axe + 1)
+            Ent:EmitSound('items/ammo_pickup.wav')
 		end
 		self:Remove()
 	end
@@ -122,5 +123,6 @@ function ENT:Use( activator, caller )
 	self.Entity:Remove()
 	if ( activator:IsPlayer() and activator:GetNWInt('AxeCount', 0) < AXE_MAX) then
 		activator:SetNWInt('AxeCount', activator:GetNWInt('AxeCount') + 1 )
+        activator:EmitSound('items/ammo_pickup.wav')
 	end
 end
