@@ -68,9 +68,9 @@ function GM:CollectOddball( ply )
     ply:StripWeapons()
     ply:Give( ODDBALL_WEAPON )
     SetGlobalEntity('OddballEntity', ply )
-    ply:SetWalkSpeed( 500 )
-    ply:SetRunSpeed( 725 )
-    ply:SetJumpPower( 300 )
+    ply:SetWalkSpeed( 575 )
+    ply:SetRunSpeed( 575 )
+    ply:SetJumpPower( 275 )
 end
 
 hook.Add('DoPlayerDeath', 'OddballDrop', function( ply )
