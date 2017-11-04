@@ -40,6 +40,10 @@ end )
 hook.Add('RoundEnd', 'RemoveOBTimer', function()
     for k,v in pairs( player.GetAll() ) do
         v:AddFrags( v:GetNWInt('OB_Progress', 0) )
+        if FLUFFY_CURRENCY then
+            local score = math.floor( v:GetNWInt('OB_Progress') / 10 )
+            v:QueueXP( score )
+        end
     end
     timer.Remove('OddballTimer')
 end )

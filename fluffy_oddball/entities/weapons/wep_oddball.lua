@@ -2,6 +2,7 @@ AddCSLuaFile()
 
 SWEP.Base = "weapon_base"
 SWEP.Spawnable = true
+SWEP.PrintName = 'Oddball'
 
 SWEP.ViewModelFOV	= 45
 SWEP.ViewModelFlip	= false
