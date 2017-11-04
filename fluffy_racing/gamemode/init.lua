@@ -45,6 +45,16 @@ hook.Add('PreRoundStart', 'ResetCheckpoints', function()
     end
 end )
 
+hook.Add('RoundEnd', 'RacingScores', function()
+    for k,v in pairs( player.GetAll() ) do
+        v:AddFrags( v:GetNWInt('Checkpoint', 0) )
+        if FLUFFY_CURRENCY then
+            local score = v:GetNWInt('Checkpoint', 0)
+            v:QueueXP( score )
+        end
+    end
+end )
+
 function GM:PlayerSpawn( ply )
     local state = GetGlobalString('RoundState', 'GameNotStarted')
     
