@@ -38,6 +38,9 @@ hook.Add('PreRoundStart', 'ResetOBRank', function()
 end )
 
 hook.Add('RoundEnd', 'RemoveOBTimer', function()
+    for k,v in pairs( player.GetAll() ) do
+        v:AddFrags( v:GetNWInt('OB_Progress', 0) )
+    end
     timer.Remove('OddballTimer')
 end )
 
@@ -73,7 +76,8 @@ function GM:CollectOddball( ply )
     ply:SetJumpPower( 275 )
 end
 
-hook.Add('DoPlayerDeath', 'OddballDrop', function( ply )
+function GM:DoPlayerDeath(ply)
+    ply:CreateRagdoll()
     if ply:HasWeapon( ODDBALL_WEAPON ) or GetGlobalEntity('OddballEntity') == ply then
         local vel = ply:EyeAngles():Forward():GetNormalized() * 800
         local ball = ents.Create('ent_oddball')
@@ -84,5 +88,5 @@ hook.Add('DoPlayerDeath', 'OddballDrop', function( ply )
         ball:GetPhysicsObject():SetVelocity( vel )
         SetGlobalEntity('OddballEntity', ball )
     end
-end )
+end
 
