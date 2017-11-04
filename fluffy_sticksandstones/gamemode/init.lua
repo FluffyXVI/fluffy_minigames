@@ -27,6 +27,7 @@ function GM:GetWinningPlayer()
         end
     end
     
+    bestplayer:AddFrags( 5 )
     return bestplayer
 end
 
