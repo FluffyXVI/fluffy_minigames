@@ -13,7 +13,7 @@ GM.RoundTime = 150      -- Seconds each round lasts for
 GM.CanSuicide = false   -- Block suicide
 
 DESPAWN_TIME = 10       -- Time before the ball respawns
-ODDBALL_WEAPON = 'weapon_crowbar'
+ODDBALL_WEAPON = 'wep_oddball'
 
 GM.BallSpawns = {}
 GM.BallSpawns['gm_battlegrounds'] = Vector(0, 256, 128)
