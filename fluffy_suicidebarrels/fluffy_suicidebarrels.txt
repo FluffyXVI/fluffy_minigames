@@ -1,6 +1,5 @@
-"fluffy_suicidebarrels"
+"minigames"
 {
 	"base"	"fluffy_base"
-	"title"	"Suicide Barrels 2"
-	"menusystem"	"1"
+	"title"	"Minigames"
 }
