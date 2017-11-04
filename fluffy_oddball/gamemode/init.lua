@@ -74,7 +74,7 @@ function GM:CollectOddball( ply )
 end
 
 hook.Add('DoPlayerDeath', 'OddballDrop', function( ply )
-    if ply:HasWeapon( ODDBALL_WEAPON ) then
+    if ply:HasWeapon( ODDBALL_WEAPON ) or GetGlobalEntity('OddballEntity') == ply then
         local vel = ply:EyeAngles():Forward():GetNormalized() * 800
         local ball = ents.Create('ent_oddball')
         ball:SetPos( ply:GetPos() + Vector(0, 0, 16) )
