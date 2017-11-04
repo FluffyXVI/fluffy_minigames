@@ -56,7 +56,7 @@ function GM:RespawnOddball()
         ball:Spawn()
         SetGlobalEntity('OddballEntity', ball )
     else
-        local ply = table.Random( ply.GetAll() )
+        local ply = table.Random( player.GetAll() )
         ply:Give( ODDBALL_WEAPON )
         SetGlobalEntity('OddballEntity', ply )
     end
