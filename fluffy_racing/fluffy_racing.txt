@@ -1,6 +1,5 @@
-"fluffy_racing"
+"minigames"
 {
 	"base"	"fluffy_base"
-	"title"	"Karts 2"
-	"menusystem"	"1"
+	"title"	"Minigames"
 }

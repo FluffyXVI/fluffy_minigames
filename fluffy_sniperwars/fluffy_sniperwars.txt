@@ -1,6 +1,5 @@
-"fluffy_sniperwars"
+"minigames"
 {
 	"base"	"fluffy_base"
-	"title"	"Sniper Wars 2"
-	"menusystem"	"1"
+	"title"	"Minigames"
 }

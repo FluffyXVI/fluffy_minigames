@@ -1,6 +1,5 @@
-"fluffy_oitc"
+"minigames"
 {
 	"base"	"fluffy_base"
-	"title"	"OITC"
-	"menusystem"	"1"
+	"title"	"Minigames"
 }

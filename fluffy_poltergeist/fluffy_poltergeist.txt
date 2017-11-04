@@ -1,6 +1,5 @@
-"fluffy_poltergeist"
+"minigames"
 {
 	"base"	"fluffy_base"
-	"title"	"Poltergeist 2"
-	"menusystem"	"1"
+	"title"	"Minigames"
 }

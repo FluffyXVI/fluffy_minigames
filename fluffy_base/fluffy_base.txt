@@ -1,5 +1,5 @@
-"fluffy_base"
+"minigames"
 {
-	"base"	"base"
+	"base"	"Minigames"
 	"title"	"Fluffy Base"
 }
