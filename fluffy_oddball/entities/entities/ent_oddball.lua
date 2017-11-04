@@ -24,7 +24,7 @@ function ENT:Initialize()
     
     self:Activate()
     
-    timer.Simple( RESPAWN_TIME or 20, function() if IsValid(self) then self:Remove() GAMEMODE:RespawnOddball() end end )
+    timer.Simple( RESPAWN_TIME or 10, function() GAMEMODE:RespawnOddball() if IsValid(self) then self:Remove() end end )
 end
 
 function ENT:Use( ply )
