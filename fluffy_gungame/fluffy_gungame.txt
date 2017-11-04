@@ -1,6 +1,5 @@
-"fluffy_gungame"
+"minigames"
 {
 	"base"	"fluffy_base"
-	"title"	"GunGame"
-	"menusystem"	"1"
+	"title"	"Minigames"
 }

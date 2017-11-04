@@ -1,6 +1,5 @@
-"fluffy_pitfall"
+"minigames"
 {
 	"base"	"fluffy_base"
-	"title"	"Pitfall 2"
-	"menusystem"	"1"
+	"title"	"Minigames"
 }

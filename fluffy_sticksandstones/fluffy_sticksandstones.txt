@@ -1,6 +1,5 @@
-"fluffy_sticksandstones"
+"minigames"
 {
 	"base"	"fluffy_base"
-	"title"	"Sticks and Stones"
-	"menusystem" "1"
+	"title"	"Minigames"
 }

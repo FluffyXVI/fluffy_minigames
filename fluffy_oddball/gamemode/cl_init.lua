@@ -1,12 +1,12 @@
 include('shared.lua')
 
-surface.CreateFont('SASFont', { font='Coolvetica', size=32 } )
+surface.CreateFont('OBFont', { font='Coolvetica', size=32 } )
 
-ScoreRefreshPlayers = timer.Create('RefreshPlayers', 3, 0, function()
+ScoreRefreshPlayers = timer.Create('RefreshPlayers', 1.5, 0, function()
     if !ScorePane then return end
     local scores = {}
     for k,v in pairs( player.GetAll() ) do
-        local score = v:GetNWInt('SAS_Progress', 0 )
+        local score = v:GetNWInt('OB_Progress', 0 )
         table.insert( scores, {v, score} )
     end
     table.sort( scores, function( a, b ) return a[2] > b[2] end )
@@ -35,8 +35,8 @@ function CreateScoringPane()
         p:SetPos( x, 0 )
         p:SetSize( 64, 64 )
         function p:Paint()
-            local score = ply:GetNWInt('SAS_Progress', 0 )
-            draw.SimpleText( score, 'SASFont', 32, 40, color_white, TEXT_ALIGN_CENTER )
+            local score = ply:GetNWInt('OB_Progress', 0 )
+            draw.SimpleText( score, 'OBFont', 32, 40, color_white, TEXT_ALIGN_CENTER )
         end
         
         local Avatar = vgui.Create('AvatarImage', p )
@@ -51,19 +51,16 @@ function CreateScoringPane()
     ScorePane = Frame
 end
 
-local axe_material = Material('fluffy/tomahawk_outline.png', 'noclamp smooth')
-
-hook.Add('HUDPaint', 'SASCoolHUD', function()
+hook.Add('HUDPaint', 'OBCoolHUD', function()
     if !IsValid( ScorePane ) then CreateScoringPane() end
     
-    local axes = LocalPlayer():GetNWInt('AxeCount', 0)
-    if axes < 1 then return end
+    -- Draw Oddball overlay here
+    local ball = GetGlobalEntity('OddballEntity')
+    if !IsValid( ball ) then return end
+    if ball == LocalPlayer() then return end
     
-    local xx = 128
-    surface.SetMaterial( axe_material )
-    surface.SetDrawColor( color_white )
-    for i=1,axes do
-        surface.DrawTexturedRect( ScrW() - 72, ScrH() - xx, 64, 64 )
-        xx = xx + 64
-    end
+    local off = Vector( 0, 0, 12 )
+    if ball:GetClass() == 'player' then off = Vector( 0, 0, 76 ) end
+    local pos = ( ball:GetPos() + off ):ToScreen()
+    draw.SimpleText( 'Oddball', 'DermaDefault', pos.x, pos.y, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 end )

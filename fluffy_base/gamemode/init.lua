@@ -14,6 +14,11 @@ function GM:PlayerSetModel( ply )
     ply:SetModel('models/player/Group01/male_09.mdl')
 end
 
+-- Stop suicide in some gamemodes
+function GM:CanPlayerSuicide()
+    return self.CanSuicide
+end
+
 -- Called each time a player spawns
 function GM:PlayerSpawn( ply )
     local state = GetGlobalString('RoundState', 'GameNotStarted')
@@ -242,6 +247,37 @@ function GM:StartRound()
     end )
 end
 
+local deathmatch_remove = {
+    ['item_healthcharger'] = true,
+    ['item_suitcharger'] = true,
+    ['weapon_crowbar'] = true,
+    ['weapon_stunstick'] = true,
+    ['weapon_ar2'] = true,
+    ['weapon_357'] = true,
+    ['weapon_pistol'] = true,
+    ['weapon_crossbow'] = true,
+    ['weapon_shotgun'] = true,
+    ['weapon_frag'] = true,
+    ['weapon_rpg'] = true,
+    ['item_ammo_357'] = true,
+    ['item_ammo_357_large'] = true,
+    ['item_ammo_pistol'] = true,
+    ['item_ammo_crossbow'] = true,
+    ['item_ammo_smg1_grenade'] = true,
+    ['item_rpg_round'] = true,
+    ['item_box_buckshot'] = true,
+    ['item_healthkit'] = true,
+    ['item_battery'] = true,
+    ['item_ammo_ar2'] = true,
+    ['item_ammo_ar2_large'] = true,
+    ['item_ammo_ar2_altfire'] = true,
+}
+function CleanUpDMStuff()
+    for k,v in pairs( ents.GetAll() ) do
+        if deathmatch_remove[ v:GetClass() ] then v:Remove() end
+    end
+end
+
 function GM:StartPreRound()
     local round = GetGlobalInt('RoundNumber', 0 )
     
@@ -249,6 +285,7 @@ function GM:StartPreRound()
     
     -- Reset things
     game.CleanUpMap()
+    CleanUpDMStuff()
     GAMEMODE.TeamKills = {}
     GAMEMODE.TeamKills[1] = 0
     GAMEMODE.TeamKills[2] = 0

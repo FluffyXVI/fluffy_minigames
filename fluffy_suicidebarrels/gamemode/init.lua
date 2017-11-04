@@ -57,7 +57,7 @@ hook.Add('KeyPress', 'SuicideBarrelBoom', function( ply, key )
             timer.Simple( .5, function() if IsValid( ply ) and ply:Alive() then ply:EmitSound( "Grenade.Blip" ) end end )
             timer.Simple( 1, function() if IsValid( ply ) and ply:Alive() then ply:EmitSound( "Grenade.Blip" ) end end )
             timer.Simple( 1.5, function() if IsValid( ply ) and ply:Alive() then ply:EmitSound( "Weapon_CombineGuard.Special1" ) end end )
-            timer.Simple( 2, function() if IsValid( ply ) and ply:Alive() then ply:Kill() end end )
+            timer.Simple( 2, function() if IsValid( ply ) and ply:Alive() and ply:Team() == TEAM_RED then ply:Kill() end end )
         end
     elseif ply:Team() == TEAM_RED and key == IN_ATTACK2 then
         if !ply:Alive() then return end
