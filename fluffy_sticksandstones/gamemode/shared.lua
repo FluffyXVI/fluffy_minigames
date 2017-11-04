@@ -10,6 +10,7 @@ GM.Author = 'AlbinoBlackHawk'
 
 GM.RoundNumber = 5      -- How many rounds?
 GM.RoundTime = 120      -- Seconds each round lasts for
+GM.CanSuicide = false   -- Block suicide
 AXE_MAX = 3				-- Max amount of Tommahawks a player can carry.
 KNIFE_MAX = 4			-- Max amount of Ballistic Knives a player can have.
 NORMAL_SCORE = 10		-- Points awarded for crossbow and ballitic knife kills

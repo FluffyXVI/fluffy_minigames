@@ -20,6 +20,7 @@ GM.RoundNumber = 3      -- How many rounds?
 GM.RoundTime = 150      -- Seconds each round lasts for
 GM.RoundCooldown = 5    -- Cooldown between rounds - (double this, once preround, once postround)
 
+GM.CanSuicide    = true -- Should players be able to commit suicide?
 GM.AllowAutoTeam = true -- This should work but it doesn't
 
 function GM:Initialize()

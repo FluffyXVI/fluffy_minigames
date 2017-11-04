@@ -14,6 +14,11 @@ function GM:PlayerSetModel( ply )
     ply:SetModel('models/player/Group01/male_09.mdl')
 end
 
+-- Stop suicide in some gamemodes
+function GM:CanPlayerSuicide()
+    return self.CanSuicide
+end
+
 -- Called each time a player spawns
 function GM:PlayerSpawn( ply )
     local state = GetGlobalString('RoundState', 'GameNotStarted')
