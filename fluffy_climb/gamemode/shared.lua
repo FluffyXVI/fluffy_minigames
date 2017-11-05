@@ -11,6 +11,8 @@ GM.Elimination = true
 GM.RoundNumber = 10      -- How many rounds?
 GM.RoundTime = 150      -- Seconds each round lasts for
 
+GM.ThirdpersonEnabled = true
+
 function GM:Initialize()
 
 end
