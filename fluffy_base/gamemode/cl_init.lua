@@ -6,20 +6,20 @@ include('shared.lua')
     The HUD is still somewhere else. Sorry.
 --]]
 
-local thirdperson = false
 hook.Add("PlayerBindPress", "ThirdpersonToggle", function(pl, bind, pressed)
-    if !GAMEMODE.ThirdpersonEnabled then return end
     if bind == "gm_showspare1" and pressed == true then
-        thirdperson = !thirdperson
+        if !GAMEMODE.ThirdpersonEnabled and !LocalPlayer():IsSuperAdmin() then return end
+        if !LocalPlayer().Thirdperson then LocalPlayer().Thirdperson = false end
+        LocalPlayer().Thirdperson = !( LocalPlayer().Thirdperson )
     end
 end)
 
 
 function GM:CalcView(pl, pos, angles, fov)
-    if !self.ThirdpersonEnabled then return end
+    if !self.ThirdpersonEnabled and !LocalPlayer():IsSuperAdmin() then return end
     local view = {}
     angles = pl:EyeAngles()
-    if pl:Alive() and pl:GetObserverMode() == OBS_MODE_NONE and ( thirdperson or frontperson ) then
+    if pl:Alive() and pl:GetObserverMode() == OBS_MODE_NONE and ( LocalPlayer().Thirdperson ) then
         view.fov = GetConVar( "default_fov" ):GetFloat()
         local newP = angles.p
         if angles.p <= -45 then angles.p = (angles.p - 45) * 0.5 newP = (newP - 45) * 0.5 end
