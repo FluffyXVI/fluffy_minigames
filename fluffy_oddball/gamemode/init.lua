@@ -56,9 +56,8 @@ function GM:RespawnOddball()
         ball:Spawn()
         SetGlobalEntity('OddballEntity', ball )
     else
-        local ply = table.Random( player.GetAll() )
-        ply:Give( ODDBALL_WEAPON )
-        SetGlobalEntity('OddballEntity', ply )
+        print('Fatal error; no spawns are on this map.')
+        timer.Simple( 6, function() GAMEMODE:CollectOddball( table.Random( player.GetAll() ) ) end )
     end
 end
 
