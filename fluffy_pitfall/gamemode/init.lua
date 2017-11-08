@@ -105,7 +105,7 @@ function GM:SpawnPlatform(pos)
 	if ( !spawn ) then return end
 	
 	local center = prop:GetCenter()
-	center.z = center.z + 15
+	center.z = center.z + 24
 	spawn:SetPos(center)
 	spawn.spawnUsed = false
     

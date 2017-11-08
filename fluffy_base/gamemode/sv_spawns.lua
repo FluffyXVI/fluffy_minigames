@@ -36,6 +36,9 @@ function ClearOldSpawns()
 	for k,v in pairs(ents.FindByClass( "info_player_start" )) do
 		v:Remove()
 	end
+    for k,v in pairs(ents.FindByClass( "info_player_deathmatch" )) do
+		v:Remove()
+	end
 	for k,v in pairs(ents.FindByClass( "gmod_player_start" )) do
 		v:Remove()
 	end

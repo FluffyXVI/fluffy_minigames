@@ -12,11 +12,16 @@ GM.RoundNumber = 5      -- How many rounds?
 GM.RoundTime = 150      -- Seconds each round lasts for
 GM.CanSuicide = false   -- Block suicide
 
-DESPAWN_TIME = 10       -- Time before the ball respawns
+RESPAWN_TIME = 10       -- Time before the ball respawns
 ODDBALL_WEAPON = 'wep_oddball'
 
 GM.BallSpawns = {}
 GM.BallSpawns['gm_battlegrounds'] = Vector(0, 256, 128)
+GM.BallSpawns['dm_chess_b4'] = Vector( 128, -64, 640 )
+GM.BallSpawns['dm_donutbox_tsgk_rc3'] = Vector( 256, -256, 192 )
+GM.BallSpawns['dm_alcys_big_temple'] = Vector( 0, 640, 0 )
+GM.BallSpawns['dm_alcys_neptune'] = Vector( 1095, -1112, 340 )
+
 
 function GM:Initialize()
 

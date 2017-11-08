@@ -259,6 +259,7 @@ local deathmatch_remove = {
     ['weapon_shotgun'] = true,
     ['weapon_frag'] = true,
     ['weapon_rpg'] = true,
+    ['weapon_slam'] = true,
     ['item_ammo_357'] = true,
     ['item_ammo_357_large'] = true,
     ['item_ammo_pistol'] = true,

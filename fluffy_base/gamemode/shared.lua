@@ -23,6 +23,8 @@ GM.RoundCooldown = 5    -- Cooldown between rounds - (double this, once preround
 GM.CanSuicide    = true -- Should players be able to commit suicide?
 GM.AllowAutoTeam = true -- This should work but it doesn't
 
+GM.ThirdpersonEnabled = false
+
 function GM:Initialize()
 
 end
