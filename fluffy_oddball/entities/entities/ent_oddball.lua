@@ -22,6 +22,7 @@ function ENT:Initialize()
     
     self:GetPhysicsObject():EnableMotion( false )
     
+    self:SetTrigger( true )
     self:Activate()
     
     timer.Simple( RESPAWN_TIME or 10, function() 
@@ -33,6 +34,13 @@ function ENT:Initialize()
 end
 
 function ENT:Use( ply )
+    if !ply:Alive() then return end
     GAMEMODE:CollectOddball( ply )
     self:Remove()
+end
+
+function ENT:Touch( ent )
+    if ent:IsPlayer() then
+        self:Use( ent, ent, USE_ON, 1 )
+    end
 end
