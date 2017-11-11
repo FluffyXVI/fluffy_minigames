@@ -3,10 +3,10 @@ AddCSLuaFile('shared.lua')
 
 include('shared.lua')
 
-GAMEMODE.HoleEntity = nil
+GM.HoleEntity = nil
 
 function GM:PlayerSpawn( ply )
-	GAMEMODE:PlayerSpawnAsSpectator( ply )
+	self:PlayerSpawnAsSpectator( ply )
 	ply:SetObserverMode(OBS_MODE_CHASE)
 end
 
@@ -26,7 +26,7 @@ end
 hook.Add('PreRoundStart', 'SpawnBalls', function() 
     print( 'Spawning Balls' )  
     local spawn = nil
-    local hole = (GetGlobalInt( 'RoundNumber', 1 ) % 2) + 1
+    local hole = (GetGlobalInt( 'RoundNumber', 1 ) % 8) + 1
     for k,v in pairs( ents.FindByClass('mg_ballspawn') ) do
         if v:GetHole() == hole then
             spawn = v
@@ -49,8 +49,18 @@ hook.Add('PreRoundStart', 'SpawnBalls', function()
         ball:SetOwner( v )
         ball:Spawn()
         v:SpectateEntity( ball )
-        local c = v:GetPlayerColor()
-        timer.Simple( 1, function() ball:SetColor( Color( c[1] * 255, c[2] * 255, c[3] * 255 ) ) end )
+        local c = Color( 52, 152, 219 )
+        local cstring = v:GetInfo('fluffy_playercolor') or '52,152,219'
+        cstring = string.Split( cstring, ',' )
+        if #cstring == 3 then
+            local r = tonumber( cstring[1] )
+            local g = tonumber( cstring[2] )
+            local b = tonumber( cstring[3] )
+            if r and g and b then
+                c = Color( math.Clamp(r,0,255), math.Clamp(g,0,255), math.Clamp(b,0,255) )
+            end
+        end
+        ball:SetColor( c )
     end
 end )
 
