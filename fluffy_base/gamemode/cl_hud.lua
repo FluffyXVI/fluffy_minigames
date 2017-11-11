@@ -23,6 +23,10 @@ surface.CreateFont( "FS_64", {
 	size = 64,
 } )
 
+fs_col1 = Color(236, 240, 241)
+fs_col2 = Color(52, 152, 219)
+fs_col3 = Color(41, 128, 185)
+
 include('drawarc.lua')
 
 local function drawCircle( x, y, radius, seg )
