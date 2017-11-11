@@ -328,86 +328,85 @@ function GM:StartPreRound()
 end
 
 -- End the round
--- Messy due to all different win conditions
+-- No longer Messy!!! :) -AlbinoBlackHawk
 function GM:EndRound( reason )
+    --Check if we can acually endround (have to be in a round to do so)
     if GetGlobalString('RoundState') != 'InRound' then return end
     timer.Remove('GamemodeTimer')
 
-    -- Display who round the round
+    -- Display who won the round
     local msg = 'The round has ended!'
-    -- If time ends
-    if reason == 'TimeEnd' then
-        -- If team survival gamemode and time is up, survivors win
-        if GAMEMODE.TeamSurvival then
-            msg = team.GetName( GAMEMODE.SurvivorTeam ) .. ' win the round!'
-            team.AddScore( GAMEMODE.SurvivorTeam, 1 )
-            
-            -- 10XP to anyone alive at the end of a round
-            if FLUFFY_CURRENCY then
-                for k,v in pairs(team.GetPlayers(1)) do
-                    if v:Alive() then v:QueueXP( 8 ) else v:QueueXP( 4 ) end
-                end
-            end
-        end
-        
-        -- If team based, give to the team with the most frags
-        if GAMEMODE.TeamBased then
-            if GAMEMODE.TeamKills[1] > GAMEMODE.TeamKills[2] then
-                msg = team.GetName(1) .. ' win the round!'
-                team.AddScore( 1, 1 )
-                
-                if FLUFFY_CURRENCY then
-                    for k,v in pairs(team.GetPlayers(1)) do
-                        v:QueueXP( 5 )
-                    end
-                end
-            else
-                msg = team.GetName(2) .. ' win the round!'
-                team.AddScore( 2, 1 )
-                
-                if FLUFFY_CURRENCY then
-                    for k,v in pairs(team.GetPlayers(2)) do
-                        v:QueueXP( 5 )
-                    end
-                end
-            end
-        else
-            -- Award to the regular winner
-            local winner = GAMEMODE:GetWinningPlayer()
-            if winner then
-                msg = winner:Nick() .. ' wins the round!'
-            else
-                msg = 'Time\'s up! Nobody wins.'
-            end
-        end
-    -- If ended outside of a time up:
-    -- Give it to the player
-    elseif IsEntity( reason ) then
-        if reason:IsPlayer() then
-            msg = reason:Nick() .. ' wins the round!'
-            reason:AddFrags( 1 )
-            
-            if FLUFFY_CURRENCY then
-                reason:QueueXP( 10 )
-            end
-        end
-    -- Give it to the team
-    elseif GAMEMODE.TeamBased then
-        msg = team.GetName( reason ) .. ' wins the round!'
-        team.AddScore( reason, 1 )
+
+    --Tracks who the winners are
+    local winners = nil
+
+    -- Determins who the winners are, if any
+    if GAMEMODE.TeamBased then
+        winners = self:HandleTeamWin(reason) -- Team based gamemodes
+    else
+        winners = self:HandleFFAWin(reason) -- Free for all based gamemodes
+    end
+
+    --do we have winners? Determines what message to send to the players.
+    if winners then
+        msg = winners .. ' win the round!'
+    elseif reason == 'TimeEnd' then
+        msg = 'Time\'s up! Nobody wins.'
     else
         msg = reason
     end
     
     -- Send round end message to players
     net.Start('EndRound')
-        net.WriteString( msg )
+    net.WriteString( msg )
     net.Broadcast()
     
     -- Move to next round
     hook.Call('RoundEnd')
-	SetGlobalString( 'RoundState', 'EndRound' )
+    SetGlobalString( 'RoundState', 'EndRound' )
     timer.Simple( GAMEMODE.RoundCooldown, function() GAMEMODE:StartPreRound() end )
+end
+
+--Handles giving XP to players on the winning team
+function GM:DoTeamXP( winningTeam )
+    for k,v in pairs(team.GetPlayers(winningTeam)) do
+        v:QueueXP( 5 )
+    end
+end
+
+--Handles victory conditions for team based gamemodes
+function GM:HandleTeamWin ( reason )
+    local winners = reason --Default, occurs when end round is triggered before time ends
+    if reason == 'TimeEnd' then
+        --If team survival, surviving team wins, otherwise determine which team has more kills
+        if GAMEMODE.TeamSurvival then
+            winners = GAMEMODE.SurvivorTeam
+        elseif GAMEMODE.TeamKills[1] > GAMEMODE.TeamKills[2] then
+            winners = 1
+        else
+            winners = 2
+        end
+    end
+    team.AddScore( winners, 1 ) --add score to winning team
+    if FLUFFY_CURRENCY then self:DoTeamXP( winners ) end --give XP to players
+    return team.GetName( winners ) --return name of team
+end
+
+--Handles victory conditions for Free for All based gamemodes
+function GM:HandleFFAWin ( reason )
+    local winner = nil --default, used for cases when there is no winner
+    --if time ran out, get the winner, otherwise the winner is the reason the round ended
+    if reason = 'TimeEnd'
+        winner = GAMEMODE:GetWinningPlayer()
+    elseif IsEntity( reason ) and reason:IsPlayer() then
+        winner = reason
+        reason:AddFrags( 1 )
+    end
+    if winner then
+        if FLUFFY_CURRENCY then winner:QueueXP( 10 ) end --give winner XP
+        winner = winner:Nick() --get winners name, to be returned at end of method
+    end
+    return winner
 end
 
 -- Handling of scoring for various different gamemodes

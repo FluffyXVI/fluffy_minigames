@@ -35,6 +35,12 @@ function GM:CanPlayerSuicide(ply)
    return true
 end
 
+function GM:DoTeamXP( winningTeam )
+    for k,v in pairs(team.GetPlayers(winningTeam)) do
+        if v:Alive() then v:QueueXP( 8 ) else v:QueueXP( 4 ) end
+    end
+end
+
 hook.Add('PlayerDeath', 'SuicideBarrelsDeath', function( ply )
     if ply:Team() == TEAM_RED then
         local boom = ents.Create( "env_explosion" )
