@@ -1,5 +1,5 @@
 AddCSLuaFile()
---ENT.Type = 'anim'
+ENT.Type = 'anim'
 ENT.Spawnable = true
 
 function ENT:Initialize()
