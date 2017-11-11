@@ -23,6 +23,8 @@ surface.CreateFont( "FS_64", {
 	size = 64,
 } )
 
+include('drawarc.lua')
+
 local function drawCircle( x, y, radius, seg )
 	local cir = {}
 

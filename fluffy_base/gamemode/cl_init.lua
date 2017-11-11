@@ -1,6 +1,6 @@
 include('shared.lua')
 
-include('cl_hud')
+include('cl_hud.lua')
 
 --[[
     HOLY MACARONI SOMETHING IS IN THIS FILE NOW :O
