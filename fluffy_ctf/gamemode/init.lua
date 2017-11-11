@@ -12,7 +12,7 @@ include('shared.lua')
 
 hook.Add('PreRoundStart', 'ResetOBRank', function()
     print("hook")
-    self:SpawnRedFlag()
+    GAMEMODE:SpawnRedFlag()
 end )
 
 function GM:SpawnRedFlag()
