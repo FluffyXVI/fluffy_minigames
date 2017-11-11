@@ -396,7 +396,7 @@ end
 function GM:HandleFFAWin ( reason )
     local winner = nil --default, used for cases when there is no winner
     --if time ran out, get the winner, otherwise the winner is the reason the round ended
-    if reason = 'TimeEnd'
+    if reason == 'TimeEnd' then
         winner = GAMEMODE:GetWinningPlayer()
     elseif IsEntity( reason ) and reason:IsPlayer() then
         winner = reason
