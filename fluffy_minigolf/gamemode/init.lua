@@ -37,9 +37,11 @@ hook.Add('PreRoundStart', 'SpawnBalls', function()
     for k,v in pairs( ents.FindByClass('mg_hole') ) do
         if v:GetHole() == hole then
             GAMEMODE.HoleEntity = v
+            SetGlobalInt( 'CurrentPAR', v:GetPar() or 3 )
             break
         end
     end
+    
     
     if !spawn then return end
     local spawnpos = spawn:GetPos() + Vector(0, 0, 20)
