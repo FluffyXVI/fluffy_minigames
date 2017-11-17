@@ -28,6 +28,7 @@ fs_col2 = Color(52, 152, 219)
 fs_col3 = Color(41, 128, 185)
 
 include('drawarc.lua')
+DEFINE_BASECLASS( 'base' )
 
 local function drawCircle( x, y, radius, seg )
 	local cir = {}
@@ -56,35 +57,43 @@ hook.Add( "HUDShouldDraw", "FluffyHideHUD", function( name )
 	if ( hide[ name ] ) then return false end
 end )
 
--- HUD Paint
-hook.Add( "HUDPaint", "FluffyHUD", function()
+function GM:HUDPaint()
     local shouldDraw = GetConVar('cl_drawhud'):GetBool()
     if !shouldDraw then return end
     
-    if GAMEMODE_NAME == 'sandbox' then return end
-    if GAMEMODE_NAME == 'murder' then return end
-    if GAMEMODE_NAME == 'buildoff' then return end
-    if GAMEMODE_NAME == 'stalker' then return end
-    if GAMEMODE_NAME == 'lobby' then return end
+    self:DrawRoundState()
+    self:DrawHealth()
+    self:DrawAmmo()
+    
+    hook.Run( "HUDDrawTargetID" )
+	hook.Run( "HUDDrawPickupHistory" )
+    hook.Run( "DrawDeathNotice", 0.85, 0.04 )
+    
+end
 
-	draw.NoTexture()
+function GM:DrawRoundState()
+    draw.NoTexture()
     local GAME_STATE = GetGlobalString('RoundState', 'GameNotStarted')
     local RoundTime = GetGlobalFloat('RoundStart')
     
+    -- Only draw this if the game hasn't yet started
     if GAME_STATE == 'GameNotStarted' then
         draw.SimpleTextOutlined( 'Waiting For Players...', "FS_40", 4, 4, fs_col1, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color( 0, 0, 0 ) )
         return
     end
     
+    -- Draw message for end of rounds (if applicable)
     if EndGameMessage then
         draw.SimpleTextOutlined( EndGameMessage, "FS_32", ScrW()/2, 32, fs_col1, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0 ) )
     end
     
+    -- Draw spectating message on bottom (very rare)
     if LocalPlayer():Team() == TEAM_SPECTATOR then
         draw.SimpleTextOutlined( 'You are a spectator', "FS_32", ScrW()/2, ScrH() - 32, fs_col1, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0 ) )
     end
     
-	if !RoundTime then return end
+    -- Draw the cool round timer
+    if !RoundTime then return end
     if GAME_STATE == 'EndRound' then return end
     
 	local tmax = GAMEMODE.RoundTime or 60
@@ -106,21 +115,14 @@ hook.Add( "HUDPaint", "FluffyHUD", function()
 	else
 		draw.SimpleTextOutlined( round .. " / " .. rmax, "FS_24", 52, 116, fs_col1, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0 ) )
 	end
-end )
+end
 
-hook.Add( "HUDPaint", "FluffyStalkerOverride", function()
-    if GAMEMODE_NAME != 'stalker' then return end
-    
-    local round = GetGlobalInt('RoundNum') or 1
-    local rmax = sv_ts_num_rounds:GetInt()
-    
-    if round == rmax then
-		draw.SimpleTextOutlined( 'Final Round!', "FS_24", 52, 24, fs_col1, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0 ) )
-	else
-		draw.SimpleTextOutlined( round .. " / " .. rmax, "FS_24", 52, 24, fs_col1, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0 ) )
-	end
-end )
+-- Bigger things are planned, I promise
+function GM:DrawHealth()
+    draw.SimpleTextOutlined( LocalPlayer():Health(), "FS_60", 4, ScrH()-4, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 1, Color( 0, 0, 0 ) )
+end
 
+-- awful crosshair code
 local function DrawCrosshair()
     local x = ScrW() / 2
     local y = ScrH() / 2
@@ -136,22 +138,17 @@ local function DrawCrosshair()
 	surface.DrawRect(x - (size + gap/2), y - (thick/2), size, thick )
 end
 
-hook.Add( "HUDPaint", "FluffyAmmo", function()
-    local shouldDraw = GetConVar('cl_drawhud'):GetBool()
-    if !shouldDraw then return end
+function GM:DrawAmmo()
+    -- Check the player is alive and playing the game
     if !LocalPlayer():Alive() then return end
-    
-    if GAMEMODE_NAME == 'stalker' then return end
-    if GAMEMODE_NAME == 'murder' then return end
-    
     if GAMEMODE_NAME != 'sandbox' then
         if GAMEMODE.TeamBased then
             if LocalPlayer():Team() == TEAM_SPECTATOR or LocalPlayer():Team() == TEAM_UNASSIGNED or LocalPlayer():Team() == 0 then return end
         end
     end
     
-    draw.SimpleTextOutlined( LocalPlayer():Health(), "FS_60", 4, ScrH()-4, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 1, Color( 0, 0, 0 ) )
-    
+    -- There is room for improvement here! Weapons have lots of unusual cases
+    -- Figure out the ammo and draw it
     local wep = LocalPlayer():GetActiveWeapon()
     if !IsValid( wep ) then return end
     if !wep.DoDrawCrosshair then DrawCrosshair() end
@@ -169,4 +166,4 @@ hook.Add( "HUDPaint", "FluffyAmmo", function()
     
     draw.SimpleTextOutlined( ammo['PrimaryClip'], "FS_60", ScrW()-60, ScrH()-4, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM, 1, Color( 0, 0, 0 ) )
     draw.SimpleTextOutlined( ammo['PrimaryAmmo'],  "FS_24", ScrW()-16, ScrH()-8, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM, 1, Color( 0, 0, 0 ) )
-end )
+end
