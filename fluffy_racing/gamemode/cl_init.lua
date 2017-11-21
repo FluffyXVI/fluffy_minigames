@@ -75,3 +75,5 @@ end
 hook.Add('HUDPaint', 'RacingCoolHUD', function()
     if !IsValid( ScorePane ) then CreateScoringPane() end
 end )
+
+function GM:DrawHealth() end
