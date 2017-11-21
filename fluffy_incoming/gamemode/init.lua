@@ -9,10 +9,9 @@ function GM:GetWinningPlayer()
 end
 
 INCMaps = {}
-DefaultProps = {}
-
 -- Default model list
-DefaultProps = {
+DefaultProps = {}
+DefaultProps['Geometric'] = {
 	"models/clannv/incoming/box/box1.mdl",
 	"models/clannv/incoming/box/box2.mdl",
 	"models/clannv/incoming/box/box3.mdl",
@@ -42,47 +41,46 @@ DefaultProps = {
 	"models/clannv/incoming/triangle/triangle3.mdl"
 }
 
--- Configurations for each map
-INCMaps[ "inc_duo" ] = {
-	[ "PropSpawnDelay" ] = 1.5,
-	[ "FallingProps" ] = {},
-	[ "Spot" ] = Vector( -1650, 5950, 6656 ),
-	[ "Distance" ] = 9000
+DefaultProps['Vehicles'] = {
+    'models/props_vehicles/van001a_physics.mdl',
+    'models/props_vehicles/car001a_hatchback.mdl',
+    'models/props_vehicles/car001b_hatchback.mdl',
+    'models/props_vehicles/car002a_physics.mdl',
+    'models/props_vehicles/car002b_physics.mdl',
+    'models/props_vehicles/car003a_physics.mdl',
+    'models/props_vehicles/car003b_physics.mdl',
+    'models/props_vehicles/car004a_physics.mdl',
+    'models/props_vehicles/car004b_physics.mdl',
+    'models/props_vehicles/car005a_physics.mdl',
+    'models/props_vehicles/car005b_physics.mdl',
+    'models/props_vehicles/apc001.mdl',
+    
+    'models/props_trainstation/train001.mdl',
+    'models/props_trainstation/train002.mdl',
+    'models/props_trainstation/train003.mdl',
+    'models/props_combine/CombineTrain01a.mdl',
+    
+    'models/props_vehicles/trailer001a.mdl',
+    'models/props_vehicles/trailer002a.mdl',
+    'models/props_vehicles/truck001a.mdl',
+    'models/props_vehicles/truck003a.mdl',
 }
-
-INCMaps[ "inc_rectangular" ] = {
-	[ "PropSpawnDelay" ] = 1.5,
-	[ "FallingProps" ] = {},
-	[ "Spot" ] = Vector( 158, 1027, 3815 ),
-	[ "Distance" ] = 8420
-}
-
-INCMaps[ "inc_linear" ] = {
-	[ "PropSpawnDelay" ] = 2,
-	[ "FallingProps" ] = {},
-	[ "Spot" ] = Vector( 0, 4991, 3456 ),
-	[ "Distance" ] = 12500
-}
-
--- Register default props to each map
-for k, v in pairs( INCMaps ) do
-	table.Add( INCMaps[ k ][ "FallingProps" ], DefaultProps )
-end
 
 -- No weapons
 function GM:PlayerLoadout( ply )
 
 end
 
+CurrentPropsCategory = 'Geometric'
+
 -- Prop
 INCPropSpawnTimer = 0
-local Delay = INCMaps[ game.GetMap() ].PropSpawnDelay
-local Props = INCMaps[ game.GetMap() ].FallingProps
+local Delay = 2
 hook.Add("Tick", "TickPropSpawn", function()
     if GetGlobalString('RoundState') != 'InRound' then return end
-    
+    local Props = DefaultProps[ CurrentPropsCategory ]
 	if ( INCPropSpawnTimer < CurTime() ) then
-		for k, v in pairs( ents.FindByClass( "inc_prop_spawner" ) ) do
+		for k, v in pairs( ents.FindByClass( INCMaps["SpawnEntity"] or 'inc_prop_spawner' ) ) do
 			INCPropSpawnTimer = CurTime() + Delay
 			local Ent = ents.Create( "prop_physics" )
 			Ent:SetModel( Props[ math.random( 1, #Props ) ] )
@@ -93,6 +91,10 @@ hook.Add("Tick", "TickPropSpawn", function()
 	end
 end )
 
+hook.Add('PreRoundStart', 'IncomingPropsChange', function()
+    local category = table.Random( table.GetKeys( DefaultProps ) )
+    CurrentPropsCategory = category
+end )
 
 
 -- Network resources
